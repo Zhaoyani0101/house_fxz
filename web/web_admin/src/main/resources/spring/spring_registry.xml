@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+
+
+    <!--1.为当前消费者在注册中心起名字-->
+    <dubbo:application name="web_admin"/>
+    <!--2。连接注册中心-->
+    <dubbo:registry address="zookeeper://localhost:2181"/>
+    <!--3.不检查服务的提供者-->
+    <dubbo:consumer check="false"/>
+</beans>

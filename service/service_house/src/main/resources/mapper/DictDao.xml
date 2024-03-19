@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhaoyani.dao.DictDao">
+<!--List<Dict> findAll();-->
+    <select id="findAll" resultType="dict">
+        select * from hse_dict where is_deleted=0
+    </select>
+
+<!--List<Dict> findDictByParentId(Long id);-->
+    <select id="findDictByParentId" resultType="dict">
+         select * from hse_dict where  parent_id=#{id} and is_deleted=0
+    </select>
+
+<!--Long findIdByCode(String code);-->
+    <select id="findIdByCode" resultType="long">
+        select * from hse_dict where  dict_code=#{code} and is_deleted=0
+    </select>
+
+<!--Dict getById(Long id);-->
+    <select id="getById" resultType="dict">
+        select * from hse_dict where  id=#{id} and is_deleted=0
+    </select>
+</mapper>

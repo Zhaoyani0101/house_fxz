@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhaoyani.dao.UserFollowDao">
+
+    <insert id="insert">
+        insert into user_follow(user_id,house_id)
+        values (#{userId},#{houseId})
+    </insert>
+
+    <select id="isFollow" resultType="UserFollow">
+        select * from user_follow where user_id=#{param1} and house_id=#{param2} and is_deleted=0
+    </select>
+
+    <select id="findFollowByUser" resultType="userFollowVo">
+        select uf.id,uf.house_id ,uf.create_time,hc.name communityName, hh.*
+        from user_follow uf LEFT JOIN hse_house hh
+        on uf.house_id=hh.id LEFT JOIN hse_community hc
+        on hh.community_id=hc.id
+        where uf.user_id=#{userId}
+        and uf.is_deleted=0
+        and hh.is_deleted=0
+        and hc.is_deleted=0
+    </select>
+
+    <update id="delete">
+        update user_follow set is_deleted=1 where id=#{id}
+    </update>
+</mapper>
+

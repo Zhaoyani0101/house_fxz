@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhaoyani.dao.CommunityDao">
+<!--List<Community> findPage(Map filters);-->
+    <select id="findPage" resultType="community">
+        select * from hse_community
+        <where>
+            <if test="name!= null and name != ''">
+                name like concat('%',#{name},'%')
+            </if>
+            <if test="areaId!= null and areaId != ''">
+                and area_id=#{areaId}
+            </if>
+            <if test="plateId!= null and plateId != ''">
+                and plate_id=#{plateId}
+            </if>
+            and is_deleted=0
+        </where>
+    </select>
+
+<!--void insert(Community community);-->
+    <insert id="insert">
+        insert into hse_community
+        (name,description,area_Id,plate_Id,address,build_Years,property_Price,property_Company,developer,build_Num,house_Num,average_Price)
+        values(#{name},#{description},#{areaId},#{plateId},#{address},#{buildYears},#{propertyPrice},#{propertyCompany},#{developer},#{buildNum},#{houseNum},#{averagePrice})
+    </insert>
+<!--    Community getById(Long id);-->
+    <select id="getById" resultType="community">
+        select * from hse_community where id=#{id} and is_deleted=0
+    </select>
+
+<!--    void update(Community community);-->
+    <update id="update">
+        update hse_community
+        <set>
+            <if test="name != null and name != ''">
+                name=#{name},
+            </if>
+            <if test="description != null and description != ''">
+                description=#{description},
+            </if>
+            <if test="areaId != null and areaId != ''">
+                area_Id=#{areaId},
+            </if>
+            <if test="plateId != null and plateId != ''">
+                plate_Id=#{plateId},
+            </if>
+            <if test="address != null and address != ''">
+                address=#{address},
+            </if>
+            <if test="buildYears != null and buildYears != ''">
+                build_Years=#{buildYears},
+            </if>
+            <if test="propertyPrice != null and propertyPrice != ''">
+                property_Price=#{propertyPrice},
+            </if>
+            <if test="propertyCompany != null and propertyCompany != ''">
+                property_Company=#{propertyCompany},
+            </if>
+            <if test="developer != null and developer != ''">
+                developer=#{developer},
+            </if>
+            <if test="buildNum != null and buildNum != ''">
+                build_Num=#{buildNum},
+            </if>
+            <if test="houseNum != null and houseNum != ''">
+                house_Num=#{houseNum},
+            </if>
+            <if test="averagePrice != null and averagePrice != ''">
+                average_Price=#{averagePrice}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+<!--    void delete(Long id);-->
+    <update id="delete">
+        update hse_community set is_deleted=1 where id=#{id}
+    </update>
+
+<!--    List<Community> finAll();-->
+    <select id="findAll" resultType="community">
+        select * from hse_community where is_deleted=0
+    </select>
+
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhaoyani.dao.HouseBrokerDao">
+<!--List<HouseBroker> findBrokerByHouseId(Long houseId);-->
+    <select id="findBrokerByHouseId" resultType="houseBroker">
+        SELECT hhb.*,aa.name brokerName,aa.head_url brokerHeadUrl
+        FROM acl_admin aa LEFT JOIN hse_house_broker hhb
+        ON hhb.broker_id = aa.id
+        WHERE house_id=#{houseId} AND aa.is_deleted=0 AND hhb.is_deleted=0
+    </select>
+
+<!--    List<Long> findBrokerIdByHouseId(Long houseId);-->
+    <select id="findBrokerIdByHouseId" resultType="long">
+        select broker_id from hse_house_broker where house_id=#{id} and is_deleted=0
+    </select>
+
+<!--void insert(HouseBroker houseBroker)-->
+    <insert id="insert">
+        insert into hse_house_broker(house_id,broker_id) values (#{houseId},#{brokerId})
+    </insert>
+
+<!--    void delete(Serializable id);-->
+    <update id="delete">
+        update hse_house_broker set is_deleted=1 where id=#{id}
+    </update>
+</mapper>

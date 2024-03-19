@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhaoyani.dao.AdminDao">
+        <!--List<T> findPage(Map filters); -->
+        <select id="findPage" resultType="admin">
+            select * from acl_admin
+                <where>
+                    <if test="username!=null and username!=''">
+                        username like concat('%',#{username},'%')
+                    </if>
+                    <if test="name!=null and name!=''">
+                        and name like concat('%',#{name},'%')
+                    </if>
+                    <if test="phone!=null and phone!=''">
+                        and phone like concat('%',#{phone},'%')
+                    </if>
+                    <if test="createTimeBegin!=null and createTimeBegin!=''">
+                        and create_time &gt; #{createTimeBegin}
+                    </if>
+                    <if test="createTimeEnd!=null and createTimeEnd!=''">
+                        and create_time &lt; #{createTimeEnd}
+                    </if>
+                    and is_deleted = 0
+                </where>
+        </select>
+
+<!--    void insert(Admin);-->
+    <insert id="insert">
+        insert into acl_admin(username,name,phone,password)
+        values (#{username},#{name},#{phone},#{password})
+    </insert>
+
+<!--    Admin getById(Long id);-->
+    <select id="getById" resultType="admin">
+        select * from acl_admin where id = #{id} and is_deleted=0
+    </select>
+
+<!--    void update(Admin admin);-->
+    <update id="update">
+        update acl_admin
+        <set>
+            <if test="name!=null and name!=''">
+                name=#{name},
+            </if>
+            <if test="phone!=null and phone!=''">
+                phone=#{phone},
+            </if>
+        </set>
+            where id=#{id}
+    </update>
+
+<!--    void delete(Long id);-->
+        <update id="delete">
+            update acl_admin set is_deleted=1 where id=#{id}
+        </update>
+
+    <update id="updateHeadUrl">
+        update acl_admin set head_url=#{param2} where id=#{param1}
+    </update>
+
+<!--    Admin findAdminByUserName(String userName);-->
+    <select id="findAdminByUserName" resultType="admin">
+        select * from acl_admin where username=#{username} and is_deleted=0
+    </select>
+
+</mapper>
